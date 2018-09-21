@@ -52,7 +52,7 @@ word_pairs <- function(corpus, word_1 = NULL, word_2 = NULL, min_intervening = 0
     m_start <- unlist(m_attr) 
     
     # get the character-length of the pattern in `wp_rgx`
-    m_span <- sapply(m_attr, attr, "match.length")
+    m_span <- unlist(sapply(m_attr, attr, "match.length"))
     
     # get the ending character-position of the pattern in `wp_rgx`
     m_end <- m_start + m_span
