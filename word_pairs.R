@@ -41,43 +41,51 @@ word_pairs <- function(corpus, word_1 = NULL, word_2 = NULL, min_intervening = 0
   # extract the corresponding sentences containing the word pair
   sent <- grep(pattern = wp_rgx, x = corpus, perl = TRUE, value = TRUE)
   
-  # get the attribute of the matched pattern
-  m_attr <- gregexpr(pattern = wp_rgx, text = sent, perl = TRUE)
-  m_length <- sapply(m_attr, length)
-  sent <- rep(sent, m_length)
-  
-  # get the starting character-position of the pattern in `wp_rgx`
-  m_start <- unlist(m_attr) 
-  
-  # get the character-length of the pattern in `wp_rgx`
-  m_span <- sapply(m_attr, attr, "match.length")
-  
-  # get the ending character-position of the pattern in `wp_rgx`
-  m_end <- m_start + m_span
-  
-  # extract the pattern
-  m_ptrn <- substr(sent, m_start, m_end-1)
-  
-  # get the remaining strings to the left of the pattern
-  m_left_ctx <- substr(sent, 1, (m_start-1))
-  
-  # get the remaining strings to the right of the pattern
-  m_right_ctx <- substr(sent, m_end, nchar(sent))
-  
-  # tag `word_1` and `word_2` in the pattern
-  m_ptrn_tagged <- gsub("(\\b[a-zA-Z0-9-]+$)", "<w id='2'>\\1</w>", m_ptrn, perl = TRUE)
-  m_ptrn_tagged <- gsub("(^[a-zA-Z0-9-]+\\b)", "<w id='1'>\\1</w>", m_ptrn_tagged, perl = TRUE)
-  
-  # combine the left string, matched pattern, and the right string
-  m_tagged <- paste(m_left_ctx, "<m>", m_ptrn_tagged, "</m>", m_right_ctx, sep = "")
-  
-  # generate a list-output for the pattern
-  matches <- list(pattern = m_ptrn,
-                  pattern_tagged = m_ptrn_tagged,
-                  matches = m_tagged)
-  
-  # return the output
-  return(matches)
+  if (length(sent) > 0) {
+    
+    # get the attribute of the matched pattern
+    m_attr <- gregexpr(pattern = wp_rgx, text = sent, perl = TRUE)
+    m_length <- sapply(m_attr, length)
+    sent <- rep(sent, m_length)
+    
+    # get the starting character-position of the pattern in `wp_rgx`
+    m_start <- unlist(m_attr) 
+    
+    # get the character-length of the pattern in `wp_rgx`
+    m_span <- sapply(m_attr, attr, "match.length")
+    
+    # get the ending character-position of the pattern in `wp_rgx`
+    m_end <- m_start + m_span
+    
+    # extract the pattern
+    m_ptrn <- substr(sent, m_start, m_end-1)
+    
+    # get the remaining strings to the left of the pattern
+    m_left_ctx <- substr(sent, 1, (m_start-1))
+    
+    # get the remaining strings to the right of the pattern
+    m_right_ctx <- substr(sent, m_end, nchar(sent))
+    
+    # tag `word_1` and `word_2` in the pattern
+    m_ptrn_tagged <- gsub("(\\b[a-zA-Z0-9-]+$)", "<w id='2'>\\1</w>", m_ptrn, perl = TRUE)
+    m_ptrn_tagged <- gsub("(^[a-zA-Z0-9-]+\\b)", "<w id='1'>\\1</w>", m_ptrn_tagged, perl = TRUE)
+    
+    # combine the left string, matched pattern, and the right string
+    m_tagged <- paste(m_left_ctx, "<m>", m_ptrn_tagged, "</m>", m_right_ctx, sep = "")
+    
+    # generate a list-output for the pattern
+    matches <- list(pattern = m_ptrn,
+                    pattern_tagged = m_ptrn_tagged,
+                    matches = m_tagged)
+    
+    # return the output
+    return(matches)
+    
+  } else {
+    
+    message("No match found!\n")
+    
+  }
   
 }
 
