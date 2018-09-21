@@ -103,10 +103,12 @@ word_pairs <- function(corpus, word_1 = NULL, word_2 = NULL, min_intervening = 0
   # combine the left string, matched pattern, and the right string
   m_tagged <- paste(m_left_ctx, "<m>", m_ptrn_tagged, "</m>", m_right_ctx, sep = "")
   
-  # generate a list-output for the pattern and return the output
+  # generate a list-output for the pattern
   matches <- list(pattern = m_ptrn,
                   pattern_tagged = m_ptrn_tagged,
                   matches = m_tagged)
+  
+  # return the output
   return(matches)
   
 }
