@@ -1,6 +1,6 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
-[![Travis build status](https://travis-ci.org/gederajeg/wordpairs.svg?branch=master)](https://travis-ci.org/gederajeg/wordpairs) [![AppVeyor build status](https://ci.appveyor.com/api/projects/status/github/gederajeg/wordpairs?branch=master&svg=true)](https://ci.appveyor.com/project/gederajeg/wordpairs) [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.1422866.svg)](https://doi.org/10.5281/zenodo.1422866)
+[![Travis build status](https://travis-ci.org/gederajeg/wordpairs.svg?branch=master)](https://travis-ci.org/gederajeg/wordpairs) [![AppVeyor build status](https://ci.appveyor.com/api/projects/status/github/gederajeg/wordpairs?branch=master&svg=true)](https://ci.appveyor.com/project/gederajeg/wordpairs) [![Coverage status](https://codecov.io/gh/gederajeg/wordpairs/branch/master/graph/badge.svg)](https://codecov.io/github/gederajeg/wordpairs?branch=master) [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.1422866.svg)](https://doi.org/10.5281/zenodo.1422866)
 
 wordpairs
 =========
