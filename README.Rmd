@@ -28,7 +28,7 @@ devtools::install_github("gederajeg/wordpairs")
 ```
 ## Example
 
-Here is an example to search for the occurrences of Indonesian words with *me- -kan* confix, which indicate (di)transitive verbs, and the preposition *kepada* 'to(wards) sb.'.
+Here is an example to search for the occurrences of Indonesian words with *me- -kan* confix, which indicate (di)transitive verbs, and the preposition *kepada* 'to(wards) sb.'. The package comes with a random sample of 25,000 sentences from one corpus file of the Indonesian Leipzig Corpora (i.e. the `"ind_news_2008_300K-sentences.txt"`).
 
 ```{r example}
 library(wordpairs)
