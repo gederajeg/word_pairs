@@ -1,11 +1,13 @@
 #' @title Detect word pairs in text
 #'
-#' @description \code{word_pairs} searches for the occurrences of a pair of words in sentences. These words can be separated by intervening strings (viz. other in-between words), which is also handled by \code{word_pairs}.
+#' @description \code{word_pairs} searches for the occurrences of a pair of words in sentences. These words can be separated by intervening strings (viz. other in-between words).
 #' @param corpus A character vector of sentences.
 #' @param word_1 A regular expressions for the first word. The regex must enclose the word with word boundary character (i.e. \code{"\\\\b"}).
 #' @param word_2 A regular expressions for the second word. The regex must enclose the word with word boundary character (i.e. \code{"\\\\b"}).
 #' @param min_intervening Number of minimum occurrence of the intervening word.
+#'     The default is \code{0L}.
 #' @param max_intervening Number of minimum occurrence of the intervening word.
+#'     The default is \code{3L}. Use \code{Inf} to get infinite intervening words after \code{word_1} and before the occurrence of \code{word_2}.
 #'
 #' @return A list object with the following elements:
 #' \itemize{
@@ -16,23 +18,58 @@
 #' @export
 #'
 #' @examples
-#' word_1 <- "\\bmenanyakan\\b"
+#' # co-occurrence of *me-X-kan* transitive verbs with *kepada*
+#' word_1 <- "\\bmen[a-z]{3,}kan\\b"
 #' word_2 <- "\\bkepada\\b"
 #' corpus <- my_leipzig_sample
-#' m <- word_pairs(corpus, word_1 = word_1, word_2 = word_2, min_intervening = 0, max_intervening = 3)
+#' m <- word_pairs(corpus,
+#'                 word_1 = word_1,
+#'                 word_2 = word_2,
+#'                 min_intervening = 0L,
+#'                 max_intervening = 3L)
+#'
+#' # inspect the snippet of the results
+#' head(m$pattern)
+#' head(m$pattern_tagged)
+#'
+#' # generate frequency table for the patterns
+#' freq_tb <- table(m$pattern_tagged)
+#'
+#' # sort in decreasing order of frequency
+#' head(sort(freq_tb, decreasing = TRUE))
+#'
 #' @references Rajeg, Gede Primahadi Wijaya. (2018). wordpairs: An R package to retrieve word pair in sentences of the (Indonesian) Leipzig Corpora.
-word_pairs <- function(corpus, word_1 = NULL, word_2 = NULL, min_intervening = 0, max_intervening = 3) {
+word_pairs <- function(corpus, word_1 = NULL, word_2 = NULL, min_intervening = 0L, max_intervening = 3L) {
+
+  if (is.null(word_1)) {
+    stop("Specify `word_1` argument!\n")
+  }
+
+  if (is.null(word_2)) {
+    stop("Specify `word_2` argument!\n")
+  }
+
+  if (is.null(corpus)) {
+    stop("Specify the input `corpus` argument!\n")
+  }
 
   # design grouped regex for `word_1`
   w_1 <- paste("(", word_1, ")", sep = "")
 
   # design regex for the preceeding string of `word_2`
-  pre_word_2_rgx <- "([^.a-zA-Z0-9-]+]?)"
+  pre_word_2_rgx <- "([^.!?:;a-zA-Z0-9-]+?)"
   w_2 <- paste(pre_word_2_rgx, "(", word_2, ")", sep = "")
 
   # design regex for the intervening string between `word_1` and `word_2`
-  intervening_quant <- paste("{", min_intervening, ",", max_intervening, "}", sep = "")
-  in_between_rgx <- paste("([^.a-zA-Z0-9-]+[a-zA-Z0-9-]+)", intervening_quant, sep = "")
+  if (is.infinite(max_intervening)) {
+
+    max_intervening <- ""
+
+  }
+  intervening_quant <- paste("{", min_intervening, ",", max_intervening, "}?", sep = "")
+  ## below are the non-alphanumeric characters that should preceed the intervening words
+  non_alphanum_rgx <- "[^.!?:;a-zA-Z0-9-]+?"
+  in_between_rgx <- paste("(", non_alphanum_rgx, "[a-zA-Z0-9-]+)", intervening_quant, sep = "")
 
   # put together the regex for `word_1`, intervening string, and `word_2`
   wp_rgx <- paste(w_1, in_between_rgx, w_2, sep = "")

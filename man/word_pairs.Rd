@@ -4,8 +4,8 @@
 \alias{word_pairs}
 \title{Detect word pairs in text}
 \usage{
-word_pairs(corpus, word_1 = NULL, word_2 = NULL, min_intervening = 0,
-  max_intervening = 3)
+word_pairs(corpus, word_1 = NULL, word_2 = NULL, min_intervening = 0L,
+  max_intervening = 3L)
 }
 \arguments{
 \item{corpus}{A character vector of sentences.}
@@ -14,9 +14,11 @@ word_pairs(corpus, word_1 = NULL, word_2 = NULL, min_intervening = 0,
 
 \item{word_2}{A regular expressions for the second word. The regex must enclose the word with word boundary character (i.e. \code{"\\\\b"}).}
 
-\item{min_intervening}{Number of minimum occurrence of the intervening word.}
+\item{min_intervening}{Number of minimum occurrence of the intervening word.
+The default is \code{0L}.}
 
-\item{max_intervening}{Number of minimum occurrence of the intervening word.}
+\item{max_intervening}{Number of minimum occurrence of the intervening word.
+The default is \code{3L}. Use \code{Inf} to get infinite intervening words after \code{word_1} and before the occurrence of \code{word_2}.}
 }
 \value{
 A list object with the following elements:
@@ -27,13 +29,29 @@ A list object with the following elements:
 }
 }
 \description{
-\code{word_pairs} searches for the occurrences of a pair of words in sentences. These words can be separated by intervening strings (viz. other in-between words), which is also handled by \code{word_pairs}.
+\code{word_pairs} searches for the occurrences of a pair of words in sentences. These words can be separated by intervening strings (viz. other in-between words).
 }
 \examples{
-word_1 <- "\\\\bmenanyakan\\\\b"
+# co-occurrence of *me-X-kan* transitive verbs with *kepada*
+word_1 <- "\\\\bmen[a-z]{3,}kan\\\\b"
 word_2 <- "\\\\bkepada\\\\b"
 corpus <- my_leipzig_sample
-m <- word_pairs(corpus, word_1 = word_1, word_2 = word_2, min_intervening = 0, max_intervening = 3)
+m <- word_pairs(corpus,
+                word_1 = word_1,
+                word_2 = word_2,
+                min_intervening = 0L,
+                max_intervening = 3L)
+
+# inspect the snippet of the results
+head(m$pattern)
+head(m$pattern_tagged)
+
+# generate frequency table for the patterns
+freq_tb <- table(m$pattern_tagged)
+
+# sort in decreasing order of frequency
+head(sort(freq_tb, decreasing = TRUE))
+
 }
 \references{
 Rajeg, Gede Primahadi Wijaya. (2018). wordpairs: An R package to retrieve word pair in sentences of the (Indonesian) Leipzig Corpora.
