@@ -10,7 +10,7 @@ Authors@R: person("Gede Primahadi Wijaya", "Rajeg",
     comment = c(ORCID = "0000-0002-2047-8621"))
 Depends: R (>= 3.1)
 URL: https://github.com/gederajeg/wordpairs, https://gederajeg.github.io/wordpairs/ 
-BugReports: https://github.com/gederajeg/happyr/issues
+BugReports: https://github.com/gederajeg/wordpairs/issues
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
