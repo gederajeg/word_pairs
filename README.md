@@ -5,7 +5,7 @@
 wordpairs
 =========
 
-The goal of wordpairs is to retrieve the occurrences of a pair of words in sentences. This is still under development and it is designed with sentence-based corpus of the Indonesian [Leipzig Corpora Collection](http://wortschatz.uni-leipzig.de/en/download) as the input. Further testing with different corpus-input is needed.
+The goal of wordpairs is to retrieve the occurrences of a pair of words in sentences. This is still under development and it is designed with sentence-based corpus of the Indonesian [Leipzig Corpora Collection](http://wortschatz.uni-leipzig.de/en/download) as the input. Further testing with different corpus-input is a work-in-progress.
 
 Installation
 ------------
