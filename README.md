@@ -1,6 +1,6 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
-[![Travis build status](https://travis-ci.org/gederajeg/wordpairs.svg?branch=master)](https://travis-ci.org/gederajeg/wordpairs) [![AppVeyor build status](https://ci.appveyor.com/api/projects/status/github/gederajeg/wordpairs?branch=master&svg=true)](https://ci.appveyor.com/project/gederajeg/wordpairs) [![Coverage status](https://codecov.io/gh/gederajeg/wordpairs/branch/master/graph/badge.svg)](https://codecov.io/github/gederajeg/wordpairs?branch=master)
+[![Travis build status](https://travis-ci.org/gederajeg/wordpairs.svg?branch=master)](https://travis-ci.org/gederajeg/wordpairs) [![AppVeyor build status](https://ci.appveyor.com/api/projects/status/github/gederajeg/wordpairs?branch=master&svg=true)](https://ci.appveyor.com/project/gederajeg/wordpairs) [![Coverage status](https://codecov.io/gh/gederajeg/wordpairs/branch/master/graph/badge.svg)](https://codecov.io/github/gederajeg/wordpairs?branch=master) [![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](http://www.repostatus.org/badges/latest/active.svg)](http://www.repostatus.org/#active) [![DOI](https://img.shields.io/badge/doi-10.26180/5ba868cee0ef4-blue.svg?style=flat)](http://dx.doi.org/10.26180/5ba868cee0ef4)
 
 wordpairs
 =========
