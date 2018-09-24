@@ -3,7 +3,7 @@ Title: Retrieving a Word Pair in Sentences
 Description: A function to retrieve co-occurrence of two words in sentences. 
     These word pairs can be separated by multiple words.
 Date: 2018-09-21
-Version: 0.3.0.9000
+Version: 0.3.1.9000
 Authors@R: person("Gede Primahadi Wijaya", "Rajeg", 
     email = "primahadiwijaya@gmail.com", 
     role = c("aut", "cre"),
