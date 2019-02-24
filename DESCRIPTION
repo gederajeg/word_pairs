@@ -2,8 +2,8 @@ Package: wordpairs
 Title: Retrieving a Word Pair in Sentences
 Description: A function to retrieve co-occurrence of two words in sentences. 
     These word pairs can be separated by multiple words.
-Date: 2018-09-21
-Version: 0.3.1.9000
+Date: 2019-02-24
+Version: 0.3.2.9000
 Authors@R: person("Gede Primahadi Wijaya", "Rajeg", 
     email = "primahadiwijaya@gmail.com", 
     role = c("aut", "cre"),
@@ -14,7 +14,7 @@ BugReports: https://github.com/gederajeg/wordpairs/issues
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 6.0.1
+RoxygenNote: 6.1.1
 Suggests: 
     testthat,
     covr
