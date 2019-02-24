@@ -6,3 +6,7 @@
 ^appveyor\.yml$
 ^\.travis\.yml$
 ^codecov\.yml$
+^_pkgdown.yml$
+^apa-old-doi-prefix.csl$
+^docs$
+^README_bibs.bib$
