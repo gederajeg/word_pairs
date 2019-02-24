@@ -4,8 +4,8 @@
 \alias{word_pairs}
 \title{Detect word pairs in text}
 \usage{
-word_pairs(corpus, word_1 = NULL, word_2 = NULL, min_intervening = 0L,
-  max_intervening = 3L)
+word_pairs(corpus, word_1 = NULL, word_2 = NULL,
+  min_intervening = 0L, max_intervening = 3L)
 }
 \arguments{
 \item{corpus}{A character vector of sentences.}
