@@ -5,7 +5,7 @@
 wordpairs
 =========
 
-The goal of wordpairs is to retrieve the occurrences of a pair of words in sentences. This is still under development and it is designed with sentence-based corpus of the Indonesian [Leipzig Corpora Collection](http://wortschatz.uni-leipzig.de/en/download) as the input. Further testing with different corpus-input is a work-in-progress.
+The goal of wordpairs is to retrieve the occurrences of a pair of words in sentences. This is still under development and it is originally designed with sentence-based corpus of the Indonesian [Leipzig Corpora Collection](http://wortschatz.uni-leipzig.de/en/download) as the input. If each line of your corpus text does not correspond to one sentence as in the Leipzig Corpora (e.g., consisting of multiple sentences or split sentences between multiple lines), few tweaking is needed (read further below after the **Example** section).
 
 Installation
 ------------
@@ -70,9 +70,73 @@ head(freq_tb)
 #> 6 <w id='1'>mengusulkan</w> <w id='2'>kepada</w>                  4
 ```
 
+Tweaking non-sentence corpus input
+----------------------------------
+
+As mentioned above, non-sentence corpus needs to be preprocessed before using it as input for `word_pairs()`. The package includes an example of typical input text where each line does not correspond to one sentence, or the sentence elements got split into two or more lines.
+
+``` r
+wordpairs::bola_corpus_text
+#>  [1] "Namun, sejatinya tawaran yang lebih konkret justru datang dari klub Inggris dan"  
+#>  [2] "dan Jerman. Sedangkan dua klub Italia itu baru sekedar mencari informasi."        
+#>  [3] "\"Beberapa tawaran yang lebih konkret datang dari klub Inggris dan Jerman. Mereka"
+#>  [4] "benar-benar menunjukkan ketertarikannya terhadap klien saya. Sedangkan klub-klub" 
+#>  [5] "Italia sejauh ini baru sekedar mencari keterangan,\" ungkap Guerra."              
+#>  [6] "Dua klub yang terlebih dahulu telah mengajukan tawaran adalah Newcastle United"   
+#>  [7] "dan Wender Bremen. Kemungkinan besar dua klub asal Serie A itu akan menyusul"     
+#>  [8] "untuk bersaing mendapatkan mantan pemain Olympique Lyon itu."                     
+#>  [9] "Klub yang bermarkas di San Siro itu berpeluang besar jika serius mengejar Ben"    
+#> [10] "Arfa. Pasalnya, pemain sayap kiri tersebut juga mulai menunjukkan"                
+#> [11] "ketertarikannya kepada Milan. Secara terang-terangan agen itu juga berani"        
+#> [12] "menyebutkan harga yang dipatok untuk merekrut kliennya sebesar 93,6 miliar"       
+#> [13] "rupiah."                                                                          
+#> [14] "\"Saya yakin ia merupakan sosok pemain penting dengan teknik yang bagus dan dapat"
+#> [15] "meningkatkan kualitas lini tengah I Rossoneri. Ben Arfa juga akan mendapat"       
+#> [16] "banyak keuntungan jika bermain dengan klub sebesar Milan dengan 75 ribu orang di" 
+#> [17] "dalam stadion. Berapa nilai yang layak untuk seorang pemain seperti Ben Arfa? 8"  
+#> [18] "juta Euro,\" tambahnya."
+```
+
+We can see, for instance, that the beginning of line two contains elements (i.e. the strings `"dan Jerman."`) of sentence in line one. The first step to handle this is to collapse elements of this character vector into one long character vector.
+
+``` r
+bola_corpus <- paste(wordpairs::bola_corpus_text, collapse = " ")
+```
+
+Next, we can use the `tokenize_sentences()` function from the [tokenizers](https://cran.r-project.org/web/packages/tokenizers/index.html) (Mullen, Benoit, Keyes, Selivanov, & Arnold, 2018) package to split the collapsed string into character vector whose elements correspond to one sentence. You first need to install the tokenizers package in R.
+
+``` r
+# install tokenizers if you have not done it.
+# install.packages("tokenizers")
+
+bola_corpus <- tokenizers::tokenize_sentences(bola_corpus, simplify = TRUE)
+bola_corpus
+#>  [1] "Namun, sejatinya tawaran yang lebih konkret justru datang dari klub Inggris dan dan Jerman."                                     
+#>  [2] "Sedangkan dua klub Italia itu baru sekedar mencari informasi."                                                                   
+#>  [3] "\"Beberapa tawaran yang lebih konkret datang dari klub Inggris dan Jerman."                                                      
+#>  [4] "Mereka benar-benar menunjukkan ketertarikannya terhadap klien saya."                                                             
+#>  [5] "Sedangkan klub-klub Italia sejauh ini baru sekedar mencari keterangan,\" ungkap Guerra."                                         
+#>  [6] "Dua klub yang terlebih dahulu telah mengajukan tawaran adalah Newcastle United dan Wender Bremen."                               
+#>  [7] "Kemungkinan besar dua klub asal Serie A itu akan menyusul untuk bersaing mendapatkan mantan pemain Olympique Lyon itu."          
+#>  [8] "Klub yang bermarkas di San Siro itu berpeluang besar jika serius mengejar Ben Arfa."                                             
+#>  [9] "Pasalnya, pemain sayap kiri tersebut juga mulai menunjukkan ketertarikannya kepada Milan."                                       
+#> [10] "Secara terang-terangan agen itu juga berani menyebutkan harga yang dipatok untuk merekrut kliennya sebesar 93,6 miliar rupiah."  
+#> [11] "\"Saya yakin ia merupakan sosok pemain penting dengan teknik yang bagus dan dapat meningkatkan kualitas lini tengah I Rossoneri."
+#> [12] "Ben Arfa juga akan mendapat banyak keuntungan jika bermain dengan klub sebesar Milan dengan 75 ribu orang di dalam stadion."     
+#> [13] "Berapa nilai yang layak untuk seorang pemain seperti Ben Arfa?"                                                                  
+#> [14] "8 juta Euro,\" tambahnya."
+```
+
+Now, `bola_corpus` vector can be used as input for the `corpus` argument of `word_pairs()`.
+
 Citation
 --------
 
 To cite wordpairs, please use:
 
 -   Rajeg, Gede Primahadi Wijaya. (2018). *wordpairs*: An R package to retrieve word pair in sentences. Retrieved from: <https://gederajeg.github.io/wordpairs/>
+
+References
+----------
+
+Mullen, L. A., Benoit, K., Keyes, O., Selivanov, D., & Arnold, J. (2018). Fast, consistent tokenization of natural language text. *Journal of Open Source Software*, *3*(23), 655. doi:[10.21105/joss.00655](https://doi.org/10.21105/joss.00655)

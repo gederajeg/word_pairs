@@ -1,5 +1,7 @@
 ---
 output: github_document
+bibliography: 'README_bibs.bib'
+csl: 'apa-old-doi-prefix.csl'
 ---
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
@@ -19,7 +21,7 @@ knitr::opts_chunk$set(
 ```
 # wordpairs
 
-The goal of wordpairs is to retrieve the occurrences of a pair of words in sentences. This is still under development and it is designed with sentence-based corpus of the Indonesian [Leipzig Corpora Collection](http://wortschatz.uni-leipzig.de/en/download) as the input. Further testing with different corpus-input is a work-in-progress.
+The goal of wordpairs is to retrieve the occurrences of a pair of words in sentences. This is still under development and it is originally designed with sentence-based corpus of the Indonesian [Leipzig Corpora Collection](http://wortschatz.uni-leipzig.de/en/download) as the input. If each line of your corpus text does not correspond to one sentence as in the Leipzig Corpora (e.g., consisting of multiple sentences or split sentences between multiple lines), few tweaking is needed (read further below after the **Example** section).
 
 ## Installation
 
@@ -68,9 +70,38 @@ freq_tb <-
 head(freq_tb)
 ```
 
+## Tweaking non-sentence corpus input
+
+As mentioned above, non-sentence corpus needs to be preprocessed before using it as input for `word_pairs()`. The package includes an example of typical input text where each line does not correspond to one sentence, or the sentence elements got split into two or more lines.
+
+```{r bola-corpus}
+wordpairs::bola_corpus_text
+```
+
+We can see, for instance, that the beginning of line two contains elements (i.e. the strings `"dan Jerman."`) of sentence in line one. The first step to handle this is to collapse elements of this character vector into one long character vector.
+
+```{r collapse-bola}
+bola_corpus <- paste(wordpairs::bola_corpus_text, collapse = " ")
+```
+
+Next, we can use the `tokenize_sentences()` function from the [tokenizers](https://cran.r-project.org/web/packages/tokenizers/index.html) [@mullen_tokenizers] package to split the collapsed string into character vector whose elements correspond to one sentence. You first need to install the tokenizers package in R.
+
+```{r tokenize-bola}
+# install tokenizers if you have not done it.
+# install.packages("tokenizers")
+
+bola_corpus <- tokenizers::tokenize_sentences(bola_corpus, simplify = TRUE)
+bola_corpus
+```
+
+Now, `bola_corpus` vector can be used as input for the `corpus` argument of `word_pairs()`.
+
 
 ## Citation
 
 To cite wordpairs, please use:
 
 - Rajeg, Gede Primahadi Wijaya. (2018). *wordpairs*: An R package to retrieve word pair in sentences. Retrieved from: https://gederajeg.github.io/wordpairs/
+
+## References
+
